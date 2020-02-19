@@ -88,6 +88,7 @@ body {
     border-radius: 50px;
     margin-top: 50px;
     margin-bottom: 10px;
+    outline: none;
 }
 
 .slider::-webkit-slider-thumb {
