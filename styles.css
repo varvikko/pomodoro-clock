@@ -1,15 +1,15 @@
 :root {
-    --background-color: #ffcdb2;
-    --panel-background-color: #ffb4a2;
-    --panel-color: #6d6875;
-    --panel-disabled-color: #b5838d;
-    --slider-thumb-color: #6d6875;
-    --slider-thumb-disabled-color: #b5838d;
-    --slider-background-color: #b5838d;
-    --control-background-color: #b5838d;
-    --control-color: #ffb4a2;
-    --control-hover-color: #6d6875;
-    --caption-color: #6d6875;
+    --background-color: #f0f0f0;
+    --panel-background-color: #fff;
+    --panel-color: #f74f5d;
+    --panel-disabled-color: #c8c8c8;
+    --slider-thumb-color: #f74f5d;
+    --slider-thumb-disabled-color: #c8c8c8;
+    --slider-background-color: #e6e6e6;
+    --control-background-color: #f74f5d;
+    --control-color: #fba9b0;
+    --control-hover-color: #fff;
+    --caption-color: #f74f5d;
     --shadow-color: #00000010;
 }
 
@@ -106,7 +106,7 @@ body {
 }
 
 .slider.disabled::-webkit-slider-thumb {
-    background: var(--slider-thumb-disabed-color);
+    background: var(--slider-thumb-disabled-color);
     transition: background 0.25s;
 }
 
