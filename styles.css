@@ -1,9 +1,17 @@
-:root {
+/* :root {
     --background-color: #ffffff;
     --panel-background-color: #ff5555;
     --control-background-color: #ff3737;
     --accent-color: #ffffff;
+} */
+
+:root {
+    --background-color: #FFCDB2;
+    --panel-background-color: #FFB4A2;
+    --control-background-color: #B5838D;
+    --accent-color: #6D6875;
 }
+
 
 * {
     margin: 0;
