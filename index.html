@@ -14,7 +14,7 @@
         <section class='clock'>
             <div class='panel'>
                 <div class='display work'>
-                    <div class='time'>
+                    <div class='time' id="work-time">
                         25:00
                     </div>
                     <div class='label'>
@@ -23,7 +23,7 @@
                     <input type='range' min='1' max='50' value='25' class='slider' id='work-range' />
                 </div>
                 <div class='display break'>
-                    <div class='time'>
+                    <div class='time' id="break-time">
                         05:00
                     </div>
                     <div class='label'>
@@ -33,21 +33,23 @@
                 </div>
             </div>
             <div class='control'>
-                <div class='button'>
+                <div class='button' id='play'>
                     <i class="fas fa-play"></i>
                 </div>
-                <div class='button'>
+                <div class='button' id='pause'>
                     <i class="fas fa-pause"></i>
                 </div>
-                <div class='button'>
+                <div class='button' id='stop'>
                     <i class="fas fa-stop"></i>
                 </div>
-                <div class='button'>
+                <div class='button' id='reset'>
                     <i class="fas fa-redo-alt"></i>
                 </div>
             </div>
         </section>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src='clock.js'></script>
         <script src="https://kit.fontawesome.com/2d756ae1d5.js" crossorigin="anonymous"></script>
     </body>
 </html>
