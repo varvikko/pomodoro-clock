@@ -129,6 +129,10 @@ $(document).ready(() => {
         time.breakTime = defaultTime.breakTime;
         clock.reset();
         $('.button').removeClass('active');
+
+        // reset sliders
+        $('#work-range')[0].value = time.workTime;
+        $('#break-range')[0].value = time.breakTime;
     });
 
     $('#work-range').on('input', function() {
