@@ -50,7 +50,7 @@ body {
     flex-direction: column;
     align-items: center;
     border-radius: 10px;
-    box-shadow: 0 0 30px 10px #ddd;
+    box-shadow: 0 0 30px 10px #00000010;
     position: absolute;
     top: 50%;
     transform: translateY(-58%);
@@ -131,24 +131,30 @@ body {
 }
 
 .button {
-    color: var(--accent-color);
+    color: var(--panel-background-color);
     flex-basis: 21%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: color 0.25s;
+}
+
+.button:hover, .button.active {
+    color: var(--accent-color);
+    transition: color 0.25s;
 }
 
 @media only screen and (min-width: 500px) {
     .header {
         display: block;
-        color: var(--panel-background-color);
+        color: var(--control-background-color);
         margin: calc((50vh - 220px) / 3) 0;
     }
     
     .header h1 {
         font-family: Lato-Light;
-        font-size: 2.5em;
+        font-size: 3em;
         font-weight: 300;
         text-align: center;
     }
@@ -171,7 +177,7 @@ body {
         margin: 0 auto;
         background-color: var(--panel-background-color);
         border-radius: 10px;
-        box-shadow: 0 0 30px 10px #ddd;
+        box-shadow: 0 0 30px 10px #00000010;
     }
     
     .display {
