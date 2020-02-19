@@ -1,62 +1,145 @@
 'use strict'
 
-class Timer {
-    constructor() {
-        this.set(25, 5);
-    }
-
-    set(sessionTime, breakTime) {
-        this.sessionTime = sessionTime;
-        this.breakTime = breakTime;
-        this.state = 'session';
-        this.ticks = sessionTime * 60;
-        this.id = 0;
-    }
-
-    start() {
-        this.id = setInterval(() => {
-            if (this.ticks-- === 0) {
-                switch (this.state) {
-                    case 'session':
-                        this.state = 'break';
-                        this.ticks = this.breakTime * 60 - 1;
-                        break;
-                    case 'break':
-                        this.start = 'session';
-                        this.ticks = this.sessionTime * 60 - 1;
-                        break;
-                }
+$(document).ready(() => {
+    function Timing() {
+        class Timer {
+            constructor() {
+                this.set(25, 5);
             }
-
-            // update displays
-
-            // debug
-            console.clear();
-            const left = formatTicks(this.ticks);
-            const time = formatTicks((this.state === 'session' ? this.breakTime : this.sessionTime) * 60);
-
-            if (this.state === 'session') {
-                console.log(`session: ${left.minutes}:${left.seconds} *`);
-                console.log(`break:   ${time.minutes}:${time.seconds}`);
-            } else {
-                console.log(`session: ${time.minutes}:${time.seconds}`);
-                console.log(`break:   ${left.minutes}:${left.seconds} *`);
+        
+            set(workTime, breakTime) {
+                this.workTime = workTime;
+                this.breakTime = breakTime;
+                this.state = 'work';
+                this.ticks = workTime * 60;
+                this.id = 0;
+                this.stopped = true;
             }
-
-        }, 100);
+        
+            start() {
+                if (!this.stopped) return;
+                this.stopped = false;
+    
+                // disable sliders
+                $('.slider').addClass('disabled');
+                [...$('.slider')].forEach(element => element.disabled = true);
+                $('.display.break').addClass('disabled');
+    
+                this.id = setInterval(() => {
+                    if (this.ticks-- === 0) {
+                        switch (this.state) {
+                            case 'work':
+                                console.log('swithc to break');
+                                this.state = 'break';
+                                this.ticks = this.breakTime * 60 - 1;
+    
+                                $('.display.work').addClass('disabled');
+                                $('.display.break').removeClass('disabled');
+                                break;
+                            case 'break':
+                                console.log('switch to work');
+                                this.state = 'work';
+                                this.ticks = this.workTime * 60 - 1;
+    
+    
+                                $('.display.break').addClass('disabled');
+                                $('.display.work').removeClass('disabled');
+                                break;
+                        }
+                    }
+        
+                    // update displays
+                    const left = formatTicks(this.ticks);
+                    const time = formatTicks((this.state === 'work' ? this.breakTime : this.workTime) * 60);
+                    if (this.state === 'work') {
+                        $('#work-time').text(`${left.minutes}:${left.seconds}`);
+                        $('#break-time').text(`${time.minutes}:${time.seconds}`);
+                    } else {
+                        $('#work-time').text(`${time.minutes}:${time.seconds}`);
+                        $('#break-time').text(`${left.minutes}:${left.seconds}`);
+                    }
+        
+                }, 1000);
+            }
+        
+            stop() {
+                if (this.stopped) return;
+                this.stopped = true;
+                clearInterval(this.id);
+            }
+    
+            reset() {
+                this.stop();
+                this.set(time.workTime, time.breakTime);
+                $('#work-time').text(`${padTime(time.workTime)}:00`);
+                $('#break-time').text(`${padTime(time.breakTime)}:00`);
+    
+                $('.display.break').removeClass('disabled');
+                $('.display.work').removeClass('disabled');
+    
+                // enable sliders
+                $('.slider').removeClass('disabled');
+                [...$('.slider')].forEach(element => element.disabled = false);
+            }
+        }
+    
+        
+        const formatTicks = ticks => {
+            const minutes = padTime(Math.floor(ticks / 60));
+            const seconds = padTime(ticks - minutes * 60);
+            return { minutes, seconds };
+        }
+    
+        return new Timer();
     }
-
-    stop() {
-        if (this.id !== 0) clearInterval(this.id);
+    
+    const padTime = time => String(time).length === 1 ? String(time).padStart(2, '0') : time;
+    
+    const defaultTime = {
+        workTime: 25,
+        breakTime: 5,
     }
-}
+    
+    const time = {
+        workTime: defaultTime.workTime,
+        breakTime: defaultTime.breakTime,
+    }
+    
+    const clock = Timing();
 
-const padTime = time => String(time).length === 1 ? String(time).padStart(2, '0') : time;
+    $('#play.button').on('click', function() {
+        clock.start();
+        $('.button').removeClass('active');
+        this.classList.add('active');
+    });
+    
+    $('#pause.button').on('click', function() {
+        clock.stop();
+        $('.button').removeClass('active');
+        this.classList.add('active');
+    })
+    
+    $('#stop.button').on('click', function() {
+        clock.reset();
+        $('.button').removeClass('active');
+    });
+    
+    $('#reset.button').on('click', function() {
+        time.workTime = defaultTime.workTime;
+        time.breakTime = defaultTime.breakTime;
+        clock.reset();
+        $('.button').removeClass('active');
+    });
 
-const formatTicks = ticks => {
-    const minutes = padTime(Math.floor(ticks / 60));
-    const seconds = padTime(ticks - minutes * 60);
-    return { minutes, seconds };
-}
-
-const timer = new Timer();
+    $('#work-range').on('input', function() {
+        time.workTime = this.value;
+        clock.set(time.workTime, time.breakTime);
+        $('#work-time').text(`${padTime(time.workTime)}:00`);
+    })
+    
+    $('#break-range').on('input', function() {
+        time.breakTime = this.value;
+        clock.set(time.workTime, time.breakTime);
+        $('#break-time').text(`${padTime(time.breakTime)}:00`);
+    })
+})
