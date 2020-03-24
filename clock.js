@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 $(document).ready(() => {
     function Timing() {
@@ -29,19 +29,16 @@ $(document).ready(() => {
                     if (this.ticks-- === 0) {
                         switch (this.state) {
                             case 'work':
-                                console.log('swithc to break');
                                 this.state = 'break';
                                 this.ticks = this.breakTime * 60 - 1;
-    
+
                                 $('.display.work').addClass('disabled');
                                 $('.display.break').removeClass('disabled');
                                 break;
                             case 'break':
-                                console.log('switch to work');
                                 this.state = 'work';
                                 this.ticks = this.workTime * 60 - 1;
-    
-    
+
                                 $('.display.break').addClass('disabled');
                                 $('.display.work').removeClass('disabled');
                                 break;
@@ -98,12 +95,12 @@ $(document).ready(() => {
     const defaultTime = {
         workTime: 25,
         breakTime: 5,
-    }
+    };
     
     const time = {
         workTime: defaultTime.workTime,
         breakTime: defaultTime.breakTime,
-    }
+    };
     
     const clock = Timing();
 
@@ -117,7 +114,7 @@ $(document).ready(() => {
         clock.stop();
         $('.button').removeClass('active');
         this.classList.add('active');
-    })
+    });
     
     $('#stop.button').on('click', function() {
         clock.reset();
@@ -139,11 +136,12 @@ $(document).ready(() => {
         time.workTime = this.value;
         clock.set(time.workTime, time.breakTime);
         $('#work-time').text(`${padTime(time.workTime)}:00`);
-    })
+    });
     
     $('#break-range').on('input', function() {
         time.breakTime = this.value;
         clock.set(time.workTime, time.breakTime);
         $('#break-time').text(`${padTime(time.breakTime)}:00`);
-    })
-})
+    });
+});
+
